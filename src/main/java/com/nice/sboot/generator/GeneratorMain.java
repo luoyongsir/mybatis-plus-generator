@@ -68,6 +68,7 @@ public class GeneratorMain {
 				.entityBuilder()
 				.enableFileOverride()
 				.enableLombok()
+				.enableChainModel()
 				.logicDeleteColumnName("del_flag")
 				.logicDeletePropertyName("delFlag")
 				.superClass(packageConfig.joinPackage(packageConfig.getEntity()) + ".BaseEntity")
@@ -86,8 +87,13 @@ public class GeneratorMain {
 				.formatServiceFileName("%sService")
 				.build();
 
+		TemplateConfig templateConfig = new TemplateConfig.Builder()
+				.entity("entity.java")
+				.build();
+
 		AutoGenerator autoGenerator = new AutoGenerator(dataSourceConfig)
-				.global(globalConfig).packageInfo(packageConfig).strategy(strategyConfig);
+				.global(globalConfig).packageInfo(packageConfig).strategy(strategyConfig)
+				.template(templateConfig);
 
 		autoGenerator.execute(new FreemarkerTemplateEngine());
 
